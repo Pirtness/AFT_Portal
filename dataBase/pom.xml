@@ -8,5 +8,60 @@
     <artifactId>dataBase</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <liquibase.version>4.2.1</liquibase.version>
+        <postgresql.version>42.2.5</postgresql.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>env</name>
+                    <value>dev</value>
+                </property>
+            </activation>
+            <properties>
+                <liquibase.default_schema>public</liquibase.default_schema>
+                <liquibase.username>aft_portal_admin</liquibase.username>
+                <liquibase.password>4321</liquibase.password>
+                <liquibase.driver>org.postgresql.Driver</liquibase.driver>
+                <liquibase.url>jdbc:postgresql://localhost:5432/aft_portal</liquibase.url>
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.version}</version>
+                <configuration>
+                    <changeLogFile>changelog/db.changelog-master.yaml</changeLogFile>
+                    <defaultSchemaName>${liquibase.default_schema}</defaultSchemaName>
+                    <username>${liquibase.username}</username>
+                    <password>${liquibase.password}</password>
+                    <driver>${liquibase.driver}</driver>
+                    <url>${liquibase.url}</url>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
