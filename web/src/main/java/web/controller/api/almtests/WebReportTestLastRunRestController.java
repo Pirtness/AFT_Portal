@@ -70,4 +70,9 @@ public class WebReportTestLastRunRestController {
                                 @RequestParam(name="isIdent") Integer isIdent) {
         return webReportService.getRemoteLogs(testId, isIdent);
     }
+
+    @GetMapping("/getNewFailed")
+    public List<String> getNewFailedTests() {
+        return webReportService.getNewFailedTests();
+    }
 }

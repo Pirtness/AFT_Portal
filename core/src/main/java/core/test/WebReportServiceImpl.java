@@ -1,6 +1,7 @@
 package core.test;
 
 import dataBase.entity.test.*;
+import dataBase.repository.error.ErrorTemplatesRepository;
 import dataBase.repository.test.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
@@ -19,6 +20,7 @@ public class WebReportServiceImpl implements WebReportService {
     private final ImplTestRepository implTestRepository;
     private final TestRunRepository testRunRepository;
     private final RunsAndAutomationReviewRepository runsAndAutomationReviewRepository;
+    private final ErrorTemplatesRepository errorTemplatesRepository;
 
     @Override
     public List<WebReportFolder> getAllFolders() {
@@ -197,4 +199,13 @@ public class WebReportServiceImpl implements WebReportService {
         return runsAndAutomationReview.get(0);
     }
 
+    @Override
+    public ArrayList<Map<String, Object>> getErrorTemplateTestGroups() {
+        return errorTemplatesRepository.getErrorTemplateTestGroups();
+    }
+
+    @Override
+    public List<String> getNewFailedTests() {
+        return webReportTestLastRunRepository.getNewFailedTests();
+    }
 }

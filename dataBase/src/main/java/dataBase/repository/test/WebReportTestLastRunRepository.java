@@ -15,6 +15,13 @@ public interface WebReportTestLastRunRepository extends JpaRepository<WebReportT
     @Query(value = "select trs.error from TestRunStep trs")
     List<String> getErrorByTestId(Long testId);
 
+    @Query(value =
+            " select rtr.id\\:\\:text" +
+                    " from portal.vi_report_test_runs rtr" +
+                    " where rtr.last_status = 'f' and rtr.prev_status = 'p'",
+            nativeQuery = true)
+    List<String> getNewFailedTests();
+
     @Query(value = "select tr.startDate from TestRun tr" +
             " where tr.id = (" +
             "  select tlr.idLastRun from WebReportTestLastRun tlr" +

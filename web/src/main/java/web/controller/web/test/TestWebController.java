@@ -55,6 +55,12 @@ public class TestWebController {
         return "test/test_info.html";
     }
 
+    @GetMapping({"/test_errors.html","/errors.html", "/test_errors", "/errors"})
+    public String testErrors(Model model) {
+        model.addAttribute("buildName", webReportService.getLastBuildName());
+        return "test_errors/test_errors";
+    }
+
     @GetMapping({"/main.html","/main"})
     public String mainPage(Model model) {
 //        RunsAndAutomationReview allTests = webReportService.getRunsAndAutomationReviewByTestGroupId(TestGroupsEnum.ALL.getId());

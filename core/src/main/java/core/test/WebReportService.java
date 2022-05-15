@@ -3,8 +3,10 @@ package core.test;
 import dataBase.entity.test.*;
 import dataBase.repository.test.WebReportTestLastRunRepository;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface WebReportService {
     List<WebReportFolder> getAllFolders();
@@ -42,4 +44,8 @@ public interface WebReportService {
     List<String> getRemoteLogs(Long testId, Integer isIdent);
 
     RunsAndAutomationReview getRunsAndAutomationReviewByTestGroupId(Long idTestGroup);
+
+    ArrayList<Map<String, Object>> getErrorTemplateTestGroups();
+
+    List<String> getNewFailedTests();
 }
