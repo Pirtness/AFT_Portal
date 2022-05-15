@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>stands</title>
+</head>
+<body>
+<div>
+    <div th:fragment="stand_env_list" class="row">
+        <!--/*@thymesVar id="standEnvInfoList" type="java.util.List<ru.sbrf.esa.aft.healthcheck.web.dto.stand.StandEnvInfoDto>"*/-->
+        <div class="card-deck pl-3 env-cards"  th:each="standEnvInfo: ${standEnvInfoList}">
+            <div class="card border-dark text-center mb-3 bg-transparent text-dark rounded" th:id="${'stand-'+standEnvInfo.standId}">
+                <div class="card-body p-2 align-content-center">
+                    <a th:href="${standEnvInfo.url}" class="alert-link">
+                        <span th:text="${standEnvInfo.description}"> env stand name </span>
+                    </a>
+                </div>
+            </div>
+            <script th:inline="javascript">
+                $(document).ready(
+                    function () {
+                        let standId = [(${standEnvInfo.standId})]
+                        let standLastResults = '[(${standEnvInfo.standStateCode})]';
+                        let card = $(`#stand-${standId}`)
+                        standManagement.addEnvStand(standId,standLastResults,card)
+                    }
+                )
+            </script>
+        </div>
+    </div>
+</div>
+</body>
+</html>

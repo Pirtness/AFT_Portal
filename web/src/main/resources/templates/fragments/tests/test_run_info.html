@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>test_info</title>
+</head>
+
+<body>
+<div>
+    <div class="panel panel-default" th:fragment="test_run_info">
+
+        <script type = "text/javascript">
+            function addTestLogs(testId, isIdent) {
+                let url = '/api/test/testLastRunReport/' + testId + '/getRemoteLogs?isIdent=' + isIdent;
+                let data = getJsonData(url);
+
+                let htmlText = ""
+
+                if (Object.keys(data).length > 0) {
+                    htmlText += "<div class='panel-body fixTableHead' id='logs'>" +
+                        "           <table style='overflow-wrap: anywhere;' id='testLogs'\n" +
+                        "                   class='table table-striped table-hover table-sm'>\n" +
+                        "                <thead>\n" +
+                        "                <tr>\n" +
+                        "                    <th>Логи</th>\n" +
+                        "                </tr>\n" +
+                        "                </thead>";
+
+                    for (row in data) {
+                        htmlText += "<tr><td style='width: 70%; overflow-wrap: anywhere' >" + data[row] + "</td></tr>";
+                    }
+
+                    htmlText += "</table></div>";
+                }
+                return htmlText;
+            }
+
+            function addTestInfo(testId, isIdent) {
+                let testFailed = false;
+                let url = '/api/test/implTest/' + testId + '?isIdent=' + isIdent;
+                let data = getJsonData(url);
+                if (data.relativePath) document.write('<div class="caption">' + data.relativePath + '</div>');
+
+
+                let tableHeaders = "<table style='width: 100%' id='AutoTestInfoIdent'" +
+                    "                   class='table table-striped table-hover table-sm'>" +
+                    "                   <tr>\n" +
+                    "                    <th>Тэги</th>\n" +
+                    "                    <th>Статус</th>\n" +
+                    "                    <th>Прошлый статус</th>\n" +
+                    "                    <th>Ошибка</th>\n" +
+                    "                    <th>Дата запуска</th>\n" +
+                    "                </tr>"
+                let htmlCode = ""
+                let tableEmpty = true;
+
+                url = '/api/test/implTest/' + testId + '?isIdent=' + isIdent;
+                data = getJsonData(url);
+
+                if (data.tags) {
+                    htmlCode += '<td style="width: 10%">' + data.tags + '</td>';
+                    tableEmpty = false;
+                }
+                else htmlCode +='<td></td>';
+
+                url = '/api/test/testLastRunReport/' + testId + '?isIdent=' + isIdent;
+                data = getJsonData(url);
+
+                url = '/api/test/testLastRunReport/' + testId + '/getError?isIdent=' + isIdent;
+                let errorData = getJsonData(url);
+                let errorMessage = ""
+                let errorType = ""
+                if (Object.keys(data).length > 0) {
+                    if (errorData["first"]) {
+                        errorMessage = errorData["first"][0];
+                        errorType = errorData["second"];
+                    }
+                }
+
+
+                if (data.lastStatus) {
+                    if (data.lastStatus === 'f') testFailed = true;
+                    if (data.lastStatus === 'f' && data.prevStatus === 'p') {
+                        htmlCode += '<td style="width: 10%">failed</td>'
+                        if (errorType === 'MOCK' || errorType === 'TIMEOUT' ||
+                            errorType === 'CACHE') {
+                            backgroundClass = 'table-danger';
+                        }
+                        else {
+                            backgroundClass = 'table-warning';
+                        }
+                        htmlCode = tableHeaders + "<tr class='" + backgroundClass + "'>" + htmlCode;
+                    }
+                    else if (data.lastStatus === 'p') {
+                        htmlCode += '<td style="width: 10%">passed</td>'
+                        htmlCode = tableHeaders + "<tr class='table-success'>" + htmlCode;
+                    }
+                    else if (data.lastStatus === 'f') {
+                        htmlCode += '<td style="width: 10%">failed</td>'
+
+                        if (errorType === 'MOCK' || errorType === 'TIMEOUT' ||
+                            errorType === 'CACHE') {
+                            backgroundClass = 'table-danger';
+                        }
+                        else {
+                            backgroundClass = 'table-danger-dark';
+                        }
+                        htmlCode = tableHeaders + "<tr class='" + backgroundClass + "'>" + htmlCode;
+                    }
+                    else {
+                        htmlCode += '<td style="width: 10%">' + data.lastStatus + '</td>'
+                        htmlCode = tableHeaders + "<tr>" + htmlCode;
+                    }
+                    tableEmpty = false;
+                }
+                else htmlCode += '<td></td>';
+
+                if (data.prevStatus) {
+                    if (data.prevStatus === 'p') {
+                        htmlCode += '<td style="width: 10%">passed</td>'
+                    }
+                    else if (data.prevStatus === 'f') {
+                        htmlCode += '<td style="width: 10%">failed</td>'
+                    }
+                    else {
+                        htmlCode += '<td style="width: 10%">' + data.prevStatus + '</td>'
+                    }
+                    tableEmpty = false;
+                }
+                else htmlCode += '<td style="width: 10%"></td>';
+
+                if (errorMessage.length > 0) {
+                    htmlCode += '<td style="width: 55%">' + errorMessage + '</td>';
+                }
+                else htmlCode += '<td style="width: 60%"></td>';
+
+                url = '/api/test/testLastRunReport/' + testId + '/getStartDate?isIdent=' + isIdent;
+                data = getTextData(url);
+                if (data.length > 0) {
+                    htmlCode += '<td style="width: 15%">' + data + '</td>';
+                    tableEmpty = false;
+                }
+                else htmlCode += '<td style="width: 15%"></td>';
+
+                htmlCode += ' </tr></table> ';
+                if (!tableEmpty) document.write(htmlCode);
+
+                if (testFailed) {
+                    document.write("<form>" +
+                        "<button type='submit' test-id='" + testId + "'" +
+                        "is-ident='" + isIdent + "'>Показать логи</button>" +
+                        "</form>")
+                }
+            }
+        </script>
+
+        <div class="panel-body" id="test_run_info_panel">
+
+                <script type="text/javascript" th:testId="${webTest.getId()}">
+                    addTestInfo(document.currentScript.getAttribute('testId'), 0);
+                </script>
+
+            <br>
+
+<!--                <script type="text/javascript" th:testId="${webTest.getId()}">-->
+<!--                    addTestInfo(document.currentScript.getAttribute('testId'), 1)-->
+<!--                </script>-->
+
+<!--            <br>-->
+
+            <script>
+                $('button[type="submit"]').click(function(e){
+                    jQuery("#logs").remove();
+                    let testId = $(this).attr('test-id');
+                    let isIdent = $(this).attr('is-ident');
+                    document.getElementById("test_run_info_panel").innerHTML += addTestLogs(testId, isIdent);
+                })
+            </script>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

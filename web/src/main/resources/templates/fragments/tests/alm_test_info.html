@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>test_info</title>
+</head>
+<body>
+<div>
+
+    <div class="panel panel-default" th:fragment="alm_test_info">
+
+        <div class="panel-body">
+            <table style="width: 100%" id="ALMTestInfo"
+                   class="table table-striped table-hover table-sm">
+                <thead>
+                <tr>
+                    <th>Тест ID</th>
+                    <th>Название</th>
+                    <th>Автоматизирован</th>
+                    <th>Автор теста</th>
+                    <th>Автор автотеста</th>
+                    <th>Последнее редактирование</th>
+                </tr>
+                </thead>
+                <tr>
+                    <td th:text="${webTest.getId()}">0</td>
+                    <td th:text="${webTest.getName()}"></td>
+                    <td th:text="${webTest.getIsAutomatised()}"></td>
+                    <td th:text="${webTest.getAuthor()}"></td>
+                    <td th:text="${webTest.getAuthorAutotest()}"></td>
+                    <td th:text="${webTest.getLastModified()}"></td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

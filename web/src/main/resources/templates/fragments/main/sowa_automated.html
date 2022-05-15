@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+</head>
+<body>
+    <div class="panel panel-default" th:fragment="sowa_automated">
+        <script>
+            function progressBar(automatedTestsAmount, newTestsInPrAmount, totalAlmTestsAmount) {
+                // totalAlmTestsAmount = 82;
+                let noAutomatedAmount = (totalAlmTestsAmount - automatedTestsAmount - newTestsInPrAmount);
+                let at = (automatedTestsAmount / totalAlmTestsAmount * 100).toFixed(2);
+                let pr = (newTestsInPrAmount / totalAlmTestsAmount * 100).toFixed(2);
+                let noaut = (noAutomatedAmount / totalAlmTestsAmount * 100).toFixed(2);
+                let atText = automatedTestsAmount + " (" + at + "%)";
+                let prText = newTestsInPrAmount + " (" + pr + "%)";
+                let noautText = noAutomatedAmount + " (" + noaut + "%)";
+                let html = "<h6>Прогресс автоматизации:</h6>" +
+                    "        <div style='display: inline-block; width: 80%'><div class='progress' style='height: 30px'>" +
+                    "            <div class='progress-bar bg-success' role='progressbar' style='width: " + at + "%' " +
+                    "            title='" + atText + "' aria-valuemin='0' aria-valuemax='100'>" + atText + "</div>" +
+                    "            <div class='progress-bar bg-warning' role='progressbar' style='width: " + pr + "%' " +
+                    "            title='" + prText + "' aria-valuemin='0' aria-valuemax='100'>" + prText + "</div>" +
+                    "            <div class='progress-bar' role='progressbar' style='width: " + noaut + "%; background-color: lightgray' " +
+                    "            title='" + noautText + "' aria-valuemin='0' aria-valuemax='100'>" + noautText + "</div>" +
+                    "        </div></div> " +
+                    "        <span>Всего: " + totalAlmTestsAmount + "</span>" +
+                    "        <div style='vertical-align: middle'>" +
+                    "        <div style='display: inline-block'><div style='display: inline-block; margin-right: 3px; margin-left: 7px; margin-top: 2px' class='box-progress-bar box-progress-bar-success'></div><span style='display: inline-block'>  Автоматизировано</span></div>" +
+                    "        <div style='display: inline-block'><div style='display: inline-block; margin-right: 3px; margin-left: 7px; margin-top: 2px' class='box-progress-bar box-progress-bar-warning'></div><span style='display: inline-block'>  Новые в пр</span></div>" +
+                    "        <div style='display: inline-block'><div style='display: inline-block; margin-right: 3px; margin-left: 7px; margin-top: 2px' class='box-progress-bar box-progress-bar-lightgray'></div><span style='display: inline-block'>  Не автоматизировано</span></div>" +
+                    "        </div>"
+                document.write(html);
+            }
+        </script>
+
+        <script th:totalAlmTestsAmount="${sowaTests.getTotalAlmTestsAmount()}"
+                th:automatedTestsAmount="${sowaTests.getAutomatedTestsAmount()}"
+                th:newTestsInPrAmount="${sowaTests.getNewTestsInPrAmount()}">
+            progressBar(document.currentScript.getAttribute('automatedTestsAmount'),
+                document.currentScript.getAttribute('newTestsInPrAmount'),
+                document.currentScript.getAttribute('totalAlmTestsAmount'));
+        </script>
+    </div>
+</body>
+</html>

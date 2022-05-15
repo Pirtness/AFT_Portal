@@ -1,0 +1,298 @@
+.disabledbutton {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.card-deck .card {
+    min-width: 11rem;
+    max-width: 18rem;
+}
+
+.card-text .table {
+    color: inherit;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.env-cards {
+
+}
+
+.env-cards .card {
+    border-width: 2px;
+}
+
+.checks-group-table {
+
+}
+
+.checks-group-table .check-group-name {
+    width: 75%;
+}
+.checks-group-table .check-group-value {
+    width: 25%;
+    text-align: right;
+}
+
+.popover {
+    max-width: 450px;
+}
+
+.stand {}
+.standState {}
+.stand-menu {}
+.stand-checks-table-body {}
+.stand-update-date {}
+.stand-version {}
+.stand-build-date {}
+.stand-check {}
+.stand-halt {}
+
+
+canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+div {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 14px;
+}
+
+.caption {
+    padding: 9px;
+    color: gray;
+}
+
+.table-danger-dark,
+.table-danger-dark > th,
+.table-danger-dark > td {
+    background-color: rgba(244, 11, 18, 0.77);
+}
+
+.table-hover .table-danger-dark:hover {
+    background-color: rgba(217, 0, 7, 0.77);
+}
+
+.table-hover .table-danger-dark:hover > td,
+.table-hover .table-danger-dark:hover > th {
+    background-color: rgba(217, 0, 7, 0.77);
+}
+
+.box {
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.box-warning {
+    background: #ffeeba;
+}
+
+.box-success {
+    background: #c3e6cb;
+}
+
+.box-danger {
+    background: #f5c6cb;
+}
+
+.box-danger-dark {
+    background: rgba(217, 0, 7, 0.77);
+}
+
+.box-info {
+    background: #bee5eb;
+}
+
+.box-grey {
+    background: #f5f5f5;
+}
+
+.box-white-grey {
+    background: linear-gradient(135deg, white 50%, #e8e8e8 50%);
+}
+
+.box-progress-bar {
+    width: 15px;
+    height: 15px;
+    border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.box-progress-bar-success {
+    background: #28a745;
+}
+
+.box-progress-bar-warning {
+    background: #ffc107;
+}
+
+.box-progress-bar-danger {
+    background: #dc3545;
+}
+
+.box-progress-bar-lightgray {
+    background: lightgray;
+}
+
+.circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 25px;
+    border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.circle-top-right {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+
+.circle-to-do {
+    background-color: #42526e;
+}
+
+.circle-in-progress {
+    background-color: #0052cc;
+}
+
+.circle-open {
+    background-color: #42526e;
+}
+
+.fixTableHead {
+    overflow-y: auto;
+    height: 90vh;
+}
+.fixTableHead thead th {
+    background-color: #ccc;
+    position: sticky;
+    top: 0;
+}
+
+.inline-dt {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.inline-dd {
+    display: inline-block;
+    margin-right: 15px;
+}
+.inline-dd[role="button"] {
+    border: 1px solid transparent;
+}
+.inline-dd[role="button"]:hover {
+    background-color: #f5f5f5;
+    border: 1px solid #999;
+}
+.inline-dd[role="button"][clicked="true"] {
+    border: 1px solid transparent;
+    background-color: #c3e6cb;
+}
+.inline-dd[role="button"][clicked="true"]:hover {
+    background-color: #b1dfbb;
+    border: 1px solid #8fd19e;
+}
+
+.block-li ul {
+    height: 70vh;
+    overflow: auto;
+}
+.block-li ul a {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+.block-li ul li div {
+    margin: 10px;
+    overflow-wrap: break-word;
+}
+.block-li ul li {
+    position: relative;
+    cursor: pointer;
+    vertical-align: middle;
+    display: inline-block;
+    width: 30%;
+    height: 250px;
+    list-style:none;
+    margin: 10px;
+    background-color: #f5f5f5;
+}
+.block-li ul li:hover {
+    background-color: #e8e8e8;
+}
+
+.block-li ul li.new-task {
+    background-color: #f5f5f5;
+}
+.block-li ul li.new-task:hover {
+    background-color: #e8e8e8;
+}
+
+.block-li ul li.couple-day-task {
+    background-color: #ffeeba;
+}
+.block-li ul li.couple-day-task:hover {
+    background-color: #ffe8a1;
+}
+
+.block-li ul li.week-task {
+    background-color: #f5c6cb;
+}
+.block-li ul li.week-task:hover {
+    background-color: #f1b0b7;
+}
+
+.block-li ul li.old-task {
+    background-color: rgba(244, 11, 18, 0.77);
+}
+.block-li ul li.old-task:hover {
+    background-color: rgba(217, 0, 7, 0.77);
+}
+.footer-text-shadow {
+    text-shadow: 1px 0 1px rgba(0, 0, 0, .2),
+    0 1px 1px rgba(0, 0, 0, .2),
+    -1px 0 1px rgba(0, 0, 0, .2),
+    0 -1px 1px rgba(0, 0, 0, .2);
+    position: absolute;
+    bottom: 7px;
+    color: white;
+    text-align: center;
+    width: 100%;
+    font-size: 11px;
+    margin: 0px !important;
+}
+
+.bottom-left {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.task-priority {
+    height: 16px;
+    width: 16px;
+    overflow: hidden;
+}
+
+.left-col {
+    float: left;
+    width: 25%;
+}
+.center-col {
+    float: left;
+    width: 50%;
+}
+.right-col {
+    float: left;
+    width: 25%;
+}
+
+.panel-block {
+    background-color: white;
+    border: 2px solid rgba(0, 0, 0, .2);
+    border-radius: 7px;
+    padding: 30px;
+    margin: 20px;
+}

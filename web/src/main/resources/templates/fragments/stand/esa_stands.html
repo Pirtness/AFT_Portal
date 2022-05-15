@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>stands</title>
+</head>
+<body>
+
+<div th:fragment="stand_esa_list" class="row">
+    <div class="container" style="margin-left: 0">
+        <div class="row">
+            <!--/*@thymesVar id="standEsaInfoList" type="java.util.List<ru.sbrf.esa.aft.healthcheck.web.dto.stand.StandEsaInfoDto>"*/-->
+            <div class="card-deck pl-2 row-cols-1" th:each="standEsaInfo: ${standEsaInfoList}">
+                <div class="card bg-transparent text-dark mb-3 border rounded shadow stand"
+                     th:id="${'stand-'+standEsaInfo.standId}">
+                    <div class="card-header h6 font-weight-bold p-1 pr-3">
+                        <div class="container-fluid pl-0 pr-0 m-1">
+                            <div class="row">
+                                <div class="col-4">
+                                    <a th:href="${standEsaInfo.url}">
+                                        <span class="text-left" th:text="${standEsaInfo.name}">ST2</span>
+                                    </a>
+                                </div>
+                                <div class="col-8 text-right">
+                                    <div class="dropdown stand-menu">
+                                        <button type="button" class="btn btn-secondary dropdown-toggle btn-sm"
+                                                style="font-size: 0.75rem; line-height: 0.75"
+                                                data-toggle="dropdown">...
+                                        </button>
+                                        <div class="dropdown-menu" style="font-size: 0.75rem; padding: 0 0;">
+                                            <a class="dropdown-item stand-check" href="#">проверить стенд</a>
+                                            <a class="dropdown-item stand-halt" href="#">выключить проверки</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-right" style="min-width: 190px">
+                                    <span class="small stand-version"
+                                          th:text="${standEsaInfo.version}">D-44.000.00-049_ESA </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 text-right">
+                                    <span class="small stand-build-date "
+                                          th:text="${standEsaInfo.buildDate}">01.09.2020 17:28:02</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="card-text">
+                            <table class="table table-sm checks-group-table">
+                                <!--                            https://json2html.com/examples/-->
+                                <tbody class="stand-checks-table-body">
+                                <tr>
+                                    <td class="check-group-name"></td>
+                                    <td class="check-group-value"></td>
+                                </tbody>
+                            </table>
+                            <script th:inline="javascript">
+                                $(document).ready(
+                                    function () {
+                                        let standId = [(${standEsaInfo.standId})];
+                                        let standLastResults = '[(${standEsaInfo.standStateCode})]';
+                                        let cardElement = $(`#stand-${standId}`);
+                                        standManagement.addEsaStand(standId, standLastResults, cardElement)
+                                    }
+                                )
+                            </script>
+                        </div>
+                    </div>
+                    <div class="card-footer p-2">
+                        <small class="stand-update-date text-info">Last Updated 00:00</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

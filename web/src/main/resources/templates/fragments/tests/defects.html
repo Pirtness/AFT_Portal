@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>defects</title>
+</head>
+<body>
+<div>
+
+    <div class="panel panel-default" th:fragment="defects">
+        <!--    defects start-->
+<!--        <div class="panel-heading">-->
+<!--            Дефекты-->
+<!--        </div>-->
+
+        <div class="panel-body">
+            <table style="width: 100%" id="webReportDefect"
+                   class="tree table table-striped table-hover table-sm">
+                <thead>
+                <tr>
+                    <td style="width: 40%"></td>
+                    <td>Крит</td>
+                    <td>Важные</td>
+                    <td>Высокие</td>
+                    <td>Средние</td>
+                    <td>Низкие</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="treegrid-1" data-count="2">
+                    <td>Всего</td>
+                    <td th:text="${webReportDefectTotal.getCntCritical()}">0</td>
+                    <td th:text="${webReportDefectTotal.getCntVeryImportant()}">0</td>
+                    <td th:text="${webReportDefectTotal.getCntHigh()}">0</td>
+                    <td th:text="${webReportDefectTotal.getCntMedium()}">0</td>
+                    <td th:text="${webReportDefectTotal.getCntLow()}">0</td>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+    <script>
+        function webReportDefectTableLoad(parentId, response) {
+            //console.log("source data for parent " + parentId);
+            let result = [];
+            if (parentId === "1") {
+                const url = '/api/test/defectReport/'
+                const data = getJsonData(url)
+                let id = 10
+                for (row in data) {
+                    result.push(
+                        "<tr class='treegrid-" + id + " treegrid-parent-1'>\n" +
+                        "  <td>" + data[row].releaseFound + "</td> \n" +
+                        "  <td>" + data[row].cntCritical + "</td> \n" +
+                        "  <td>" + data[row].cntVeryImportant + "</td> \n" +
+                        "  <td>" + data[row].cntHigh + "</td> \n" +
+                        "  <td>" + data[row].cntMedium + "</td>\n" +
+                        "  <td>" + data[row].cntLow + "</td>\n" +
+                        "</tr>")
+                    id++;
+                }
+            }
+            response(result)
+        }
+
+        function initTreeGridDefect(table) {
+            table.treegrid({
+                source: webReportDefectTableLoad
+            });
+        }
+
+        $(document).ready(
+            function () {
+                let $tableDefect = $('#webReportDefect')
+                initTreeGridDefect($tableDefect);
+                $('.treegrid-1').treegrid('expand')
+
+                // console.log($tableDefect.treegrid('getRoots'));
+            })
+    </script>
+        <!--    defects end-->
+    </div>
+
+</div>
+</body>
+</html>
