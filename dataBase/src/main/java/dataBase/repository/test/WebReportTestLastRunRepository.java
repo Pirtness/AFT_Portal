@@ -12,7 +12,17 @@ public interface WebReportTestLastRunRepository extends JpaRepository<WebReportT
 
     List<WebReportTestLastRun> findAllById(Long id);
 
-    @Query(value = "select trs.error from TestRunStep trs")
+    @Query(value = "select trs.error from TestRunStep trs" +
+            " where trs.idTestRunPackage in (" +
+            "   select trp.id from TestRunPackage trp" +
+            "   where trp.idAlmTest = :testId" +
+            "   and trp.idTestRun = (" +
+            "     select tlr.idLastRun from WebReportTestLastRun tlr" +
+            "     where tlr.id = :testId) " +
+            "   and trp.errorExists = true)" +
+//            "     and trp.type = 's' )" +
+            " and trs.errorExists = true" +
+            " order by trs.id")
     List<String> getErrorByTestId(Long testId);
 
     @Query(value =
