@@ -27,7 +27,7 @@ public interface WebReportTestLastRunRepository extends JpaRepository<WebReportT
 
     @Query(value =
             " select rtr.id\\:\\:text" +
-                    " from portal.vi_report_test_runs rtr" +
+                    " from portal.report_test_runs rtr" +
                     " where rtr.last_status = 'f' and rtr.prev_status = 'p'",
             nativeQuery = true)
     List<String> getNewFailedTests();
@@ -54,12 +54,11 @@ public interface WebReportTestLastRunRepository extends JpaRepository<WebReportT
             " )")
     byte[] getRemoteLogs(Long testId);
 
-    //todo change to report_test_runs
     @Query(value =
             "with rtr2 as (" +
                     "select rtr.id as id, rtr.name as name, rtr.id as almId, " +
                     " rtr.prev_status as prev_status, rtr.last_status as last_status" +
-                    " from portal.vi_report_test_runs rtr" +
+                    " from portal.report_test_runs rtr" +
                     " order by rtr.id" +
                     ")" +
                     "select it.id, rtr2.almId, rtr2.name, it.tags, rtr2.prev_status as prevStatus, rtr2.last_status as lastStatus " +

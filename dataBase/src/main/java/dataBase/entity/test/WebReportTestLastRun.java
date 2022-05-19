@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @ToString
 @RequiredArgsConstructor
 @Immutable
-@Table(name ="vi_report_test_runs", schema = "portal")
+@Table(name ="report_test_runs", schema = "portal")
 public class WebReportTestLastRun {
     @Id
     private Long id;
