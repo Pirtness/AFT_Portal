@@ -63,17 +63,13 @@ public class TestWebController {
 
     @GetMapping({"/main.html","/main"})
     public String mainPage(Model model) {
-//        RunsAndAutomationReview allTests = webReportService.getRunsAndAutomationReviewByTestGroupId(TestGroupsEnum.ALL.getId());
-//        RunsAndAutomationReview firstPriorityTests = webReportService.getRunsAndAutomationReviewByTestGroupId(TestGroupsEnum.REGRESS_FIRST_PRIORITY.getId());
-//        RunsAndAutomationReview qualityGateTests = webReportService.getRunsAndAutomationReviewByTestGroupId(TestGroupsEnum.QUALITY_GATE.getId());
-        RunsAndAutomationReview sowaTests = webReportService.getRunsAndAutomationReviewByTestGroupId(TestGroupsEnum.SOWA.getId());
-        RunsAndAutomationReview sowaTests2 = webReportService.getRunsAndAutomationReviewByTestGroupId(5L);
+        RunsAndAutomationReview apiTests = webReportService.getRunsAndAutomationReviewByTestGroupId(TestGroupsEnum.API.getId());
+        RunsAndAutomationReview uiTests = webReportService.getRunsAndAutomationReviewByTestGroupId(TestGroupsEnum.UI.getId());
+        RunsAndAutomationReview qualityGate = webReportService.getRunsAndAutomationReviewByTestGroupId(TestGroupsEnum.QUALITY_GATE.getId());
 
-//        model.addAttribute("allTests", runsAndAutomationReviewDtoConverter.createFrom(allTests));
-//        model.addAttribute("firstPriorityTests", runsAndAutomationReviewDtoConverter.createFrom(firstPriorityTests));
-//        model.addAttribute("qualityGateTests", runsAndAutomationReviewDtoConverter.createFrom(qualityGateTests));
-        model.addAttribute("sowaTests", runsAndAutomationReviewDtoConverter.createFrom(sowaTests));
-        model.addAttribute("sowaTests2", runsAndAutomationReviewDtoConverter.createFrom(sowaTests2));
+        model.addAttribute("apiTests", runsAndAutomationReviewDtoConverter.createFrom(apiTests));
+        model.addAttribute("uiTests", runsAndAutomationReviewDtoConverter.createFrom(uiTests));
+        model.addAttribute("qualityGate", runsAndAutomationReviewDtoConverter.createFrom(qualityGate));
         return "main/main.html";
     }
 

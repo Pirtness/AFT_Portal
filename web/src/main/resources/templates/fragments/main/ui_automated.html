@@ -6,7 +6,7 @@
     <title>Main</title>
 </head>
 <body>
-    <div class="panel panel-default" th:fragment="sowa_automated">
+    <div class="panel panel-default" th:fragment="ui_automated">
         <script>
             function progressBar(automatedTestsAmount, newTestsInPrAmount, totalAlmTestsAmount) {
                 let noAutomatedAmount = (totalAlmTestsAmount - automatedTestsAmount - newTestsInPrAmount);
@@ -35,9 +35,9 @@
             }
         </script>
 
-        <script th:totalAlmTestsAmount="${apiTests.getTotalAlmTestsAmount()}"
-                th:automatedTestsAmount="${apiTests.getAutomatedTestsAmount()}"
-                th:newTestsInPrAmount="${apiTests.getNewTestsInPrAmount()}">
+        <script th:totalAlmTestsAmount="${uiTests.getTotalAlmTestsAmount()}"
+                th:automatedTestsAmount="${uiTests.getAutomatedTestsAmount()}"
+                th:newTestsInPrAmount="${uiTests.getNewTestsInPrAmount()}">
             progressBar(document.currentScript.getAttribute('automatedTestsAmount'),
                 document.currentScript.getAttribute('newTestsInPrAmount'),
                 document.currentScript.getAttribute('totalAlmTestsAmount'));

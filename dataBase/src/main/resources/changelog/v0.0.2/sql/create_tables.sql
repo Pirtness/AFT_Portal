@@ -25,8 +25,6 @@ create table report_failed_test_to_error_template
     creation_time timestamp default now()
 );
 
--- grant select, update on sequence report_failed_test_to_error_template_id_seq to tests_app;
-
 create unique index report_failed_test_to_error_template_id_uindex
     on report_failed_test_to_error_template (id);
 

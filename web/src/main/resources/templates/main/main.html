@@ -11,17 +11,20 @@
 </head>
 <body style="background-color: whitesmoke">
 <div layout:fragment="content">
-<!--    <script th:reportDate="${allTests.getReportCreationDate()}">-->
-<!--        document.write("<h6>Последнее обновление отчета: " +-->
-<!--            dateFormat(document.currentScript.getAttribute('reportDate')) + "</h6>");-->
-<!--    </script>-->
+    <script th:reportDate="${apiTests.getReportCreationDate()}">
+        document.write("<h6>Последнее обновление отчета: " +
+            dateFormat(document.currentScript.getAttribute('reportDate')) + "</h6>");
+    </script>
     <div class=" panel-block">
         <div>
             <h4>API тесты</h4>
             <br>
-            <div th:replace="fragments/main/sowa_automated2 :: sowa_automated2"></div>
+            <script>
+
+            </script>
+            <div th:replace="fragments/main/api_automated :: api_automated"></div>
             <br><br>
-            <div th:replace="fragments/main/sowa_test_run2 :: sowa_test_run2"></div>
+            <div th:replace="fragments/main/api_test_run :: api_test_run"></div>
         </div>
     </div>
 
@@ -29,9 +32,9 @@
         <div>
             <h4>UI тесты</h4>
             <br>
-            <div th:replace="fragments/main/sowa_automated :: sowa_automated"></div>
+            <div th:replace="fragments/main/ui_automated :: ui_automated"></div>
             <br><br>
-            <div th:replace="fragments/main/sowa_test_run :: sowa_test_run"></div>
+            <div th:replace="fragments/main/ui_test_run :: ui_test_run"></div>
         </div>
     </div>
 </div>

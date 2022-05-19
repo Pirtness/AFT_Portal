@@ -6,10 +6,9 @@
     <title>Main</title>
 </head>
 <body>
-    <div class="panel panel-default" th:fragment="sowa_automated2">
+    <div class="panel panel-default" th:fragment="api_automated">
         <script>
             function progressBar(automatedTestsAmount, newTestsInPrAmount, totalAlmTestsAmount) {
-                // totalAlmTestsAmount = 82;
                 let noAutomatedAmount = (totalAlmTestsAmount - automatedTestsAmount - newTestsInPrAmount);
                 let at = (automatedTestsAmount / totalAlmTestsAmount * 100).toFixed(2);
                 let pr = (newTestsInPrAmount / totalAlmTestsAmount * 100).toFixed(2);
@@ -31,14 +30,14 @@
                     "        <div style='display: inline-block'><div style='display: inline-block; margin-right: 3px; margin-left: 7px; margin-top: 2px' class='box-progress-bar box-progress-bar-success'></div><span style='display: inline-block'>  Автоматизировано</span></div>" +
                     "        <div style='display: inline-block'><div style='display: inline-block; margin-right: 3px; margin-left: 7px; margin-top: 2px' class='box-progress-bar box-progress-bar-warning'></div><span style='display: inline-block'>  Новые в пр</span></div>" +
                     "        <div style='display: inline-block'><div style='display: inline-block; margin-right: 3px; margin-left: 7px; margin-top: 2px' class='box-progress-bar box-progress-bar-lightgray'></div><span style='display: inline-block'>  Не автоматизировано</span></div>" +
-                    "        </div>"
+                    "        </div>";
                 document.write(html);
             }
         </script>
 
-        <script th:totalAlmTestsAmount="${sowaTests2.getTotalAlmTestsAmount()}"
-                th:automatedTestsAmount="${sowaTests2.getAutomatedTestsAmount()}"
-                th:newTestsInPrAmount="${sowaTests2.getNewTestsInPrAmount()}">
+        <script th:totalAlmTestsAmount="${apiTests.getTotalAlmTestsAmount()}"
+                th:automatedTestsAmount="${apiTests.getAutomatedTestsAmount()}"
+                th:newTestsInPrAmount="${apiTests.getNewTestsInPrAmount()}">
             progressBar(document.currentScript.getAttribute('automatedTestsAmount'),
                 document.currentScript.getAttribute('newTestsInPrAmount'),
                 document.currentScript.getAttribute('totalAlmTestsAmount'));

@@ -1,12 +1,9 @@
 package core.test.enums;
 
 public enum TestGroupsEnum {
-    ALL(1L),
-    REGRESS(2L),
-    ID_APP(3L),
-    SOWA(4L),
-    QUALITY_GATE(5L),
-    REGRESS_FIRST_PRIORITY(6L);
+    QUALITY_GATE(1L),
+    UI(2L),
+    API(3L);
 
     private long id;
 
