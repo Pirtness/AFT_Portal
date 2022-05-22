@@ -21,6 +21,7 @@ public class WebReportServiceImpl implements WebReportService {
     private final TestRunRepository testRunRepository;
     private final RunsAndAutomationReviewRepository runsAndAutomationReviewRepository;
     private final ErrorTemplatesRepository errorTemplatesRepository;
+    private final DefectRepository defectRepository;
 
     @Override
     public List<WebReportFolder> getAllFolders() {
@@ -207,5 +208,10 @@ public class WebReportServiceImpl implements WebReportService {
     @Override
     public List<String> getNewFailedTests() {
         return webReportTestLastRunRepository.getNewFailedTests();
+    }
+
+    @Override
+    public Defect getDefect(Long id) {
+        return defectRepository.findAllById(id);
     }
 }

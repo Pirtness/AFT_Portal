@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{template.html}"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Defect</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-lg-10">
+            <div th:replace="fragments/tests/defect :: defect"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

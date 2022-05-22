@@ -2,19 +2,13 @@ package web.controller.web.test;
 
 import core.test.WebReportService;
 import core.test.enums.TestGroupsEnum;
-import dataBase.entity.test.RunsAndAutomationReview;
-import dataBase.entity.test.WebReportDefect;
-import dataBase.entity.test.WebReportFolder;
-import dataBase.entity.test.WebTest;
+import dataBase.entity.test.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import web.converter.RunsAndAutomationReviewDtoConverter;
-import web.converter.WebReportDefectDtoConverter;
-import web.converter.WebReportFolderDtoConverter;
-import web.converter.WebTestDtoConverter;
+import web.converter.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,6 +19,7 @@ public class TestWebController {
     private final WebReportDefectDtoConverter webReportDefectDtoConverter;
     private final WebTestDtoConverter webTestDtoConverter;
     private final RunsAndAutomationReviewDtoConverter runsAndAutomationReviewDtoConverter;
+    private final DefectDtoConverter defectDtoConverter;
 
     @GetMapping({"/testFolders","/testFolders.html","/test_folders","/test_folders.html"})
     public String testFolderPage(Model model) {
@@ -53,6 +48,13 @@ public class TestWebController {
         final WebTest webTest = webReportService.getWebTest(testId);
         model.addAttribute("webTest", webTestDtoConverter.createFrom(webTest));
         return "test/test_info.html";
+    }
+
+    @GetMapping({"/defect.html/{id}","/defect/{id}"})
+    public String defectPage(Model model, @PathVariable(value = "id") Long defectId) {
+        final Defect defect = webReportService.getDefect(defectId);
+        model.addAttribute("defect", defectDtoConverter.createFrom(defect));
+        return "test/defect.html";
     }
 
     @GetMapping({"/test_errors.html","/errors.html", "/test_errors", "/errors"})

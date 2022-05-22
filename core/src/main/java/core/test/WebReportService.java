@@ -48,4 +48,6 @@ public interface WebReportService {
     ArrayList<Map<String, Object>> getErrorTemplateTestGroups();
 
     List<String> getNewFailedTests();
+
+    Defect getDefect(Long id);
 }

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>defect</title>
+</head>
+<body>
+<div>
+
+    <div class="panel panel-default" th:fragment="defect">
+
+        <div class="panel-body">
+            <table style="width: 100%" id="Defect1"
+                   class="table table-striped table-hover table-sm">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Релиз обнаружения</th>
+                    <th>К закрытию в релизе</th>
+                    <th>Этап обнаружения</th>
+                    <th>Блокирующий</th>
+                    <th>Важность</th>
+                </tr>
+                </thead>
+                <tr>
+                    <td th:text="${defect.getId()}">0</td>
+                    <td th:text="${defect.getName()}"></td>
+                    <td th:text="${defect.getReleaseFound()}"></td>
+                    <td th:text="${defect.getReleaseClosing()}"></td>
+                    <td th:text="${defect.getFoundState()}"></td>
+                    <td th:text="${defect.getIsBlocking()}"></td>
+                    <td th:text="${defect.getSeverity()}"></td>
+                </tr>
+
+            </table>
+            <br>
+            <table style="width: 100%" id="Defect2"
+                   class="table table-striped table-hover table-sm">
+                <thead>
+                <tr>
+                    <th>Статус</th>
+                    <th>Последнее обновление</th>
+                    <th>Дата создания</th>
+                </tr>
+                </thead>
+                <tr>
+                    <td th:text="${defect.getStatus()}">0</td>
+                    <td th:text="${defect.getLastModified()}"></td>
+                    <td th:text="${defect.getDateCreate()}"></td>
+                </tr>
+
+            </table>
+
+            <br><br>
+
+            <table style="width: 100%" id="Defect3"
+                   class="table table-striped table-hover table-sm">
+                <thead>
+                <tr>
+                    <th>Описание дефекта</th>
+                </tr>
+                </thead>
+                <tr><td><div style="white-space: pre-line" th:text="${defect.getDescription()}"></div></td></tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

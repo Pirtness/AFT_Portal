@@ -18,23 +18,16 @@ create table if not exists defect
         constraint defect_pkey
             primary key,
     name             text,
-    date_create      text,
+    date_create      timestamp,
     type_defect      text,
     release_found    text,
-    fact_date_fix    text,
-    task_release     text,
     is_blocking      text,
     release_closing  text,
     status           text,
     found_state      text,
     severity         text,
-    functional_order text,
-    type_test        text,
-    last_modified    text,
-    dev_comments     text,
-    description      text,
-    priority_bug     varchar,
-    id_prom_defect   varchar
+    last_modified    timestamp,
+    description      text
 );
 
 create table if not exists report_test_runs

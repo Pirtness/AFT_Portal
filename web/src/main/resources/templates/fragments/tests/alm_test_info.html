@@ -20,6 +20,7 @@
                     <th>Автоматизирован</th>
                     <th>Автор теста</th>
                     <th>Автор автотеста</th>
+                    <th>Привязанные дефекты</th>
                     <th>Последнее редактирование</th>
                 </tr>
                 </thead>
@@ -29,6 +30,23 @@
                     <td th:text="${webTest.getIsAutomatised()}"></td>
                     <td th:text="${webTest.getAuthor()}"></td>
                     <td th:text="${webTest.getAuthorAutotest()}"></td>
+
+                    <script th:defectIds="${webTest.getDefects()}">
+                        let html = '<td>';
+                        defectIds = document.currentScript.getAttribute("defectIds");
+                        defectIds = defectIds.split(',');
+                        console.log(defectIds);
+                        for (let row in defectIds) {
+                            if (row == defectIds.length - 1)
+                                html += '<a href="../defect/' + defectIds[row] + '">' + defectIds[row] + '</a>';
+                            else
+                                html += '<a href="../defect/' + defectIds[row] + '">' + defectIds[row] + ', </a>';
+                        }
+                        html += '</td>';
+
+                        document.write(html);
+                    </script>
+
                     <td th:text="${webTest.getLastModified()}"></td>
                 </tr>
 
