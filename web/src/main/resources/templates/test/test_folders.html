@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{template.html}"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Test folders</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-lg-10">
+            <div th:replace="fragments/tests/folders_hints :: folders_hints"></div>
+        </div>
+    </div>
+
+    <br>
+
+    <script type="text/javascript" th:buildName="${buildName}">
+        document.write("<div> Текущая сборка: " + document.currentScript.getAttribute("buildName") + "</div>");
+    </script>
+
+    <br>
+
+    <div class="row">
+        <div class="col-lg-10">
+            <div th:replace="fragments/tests/folders :: folders"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

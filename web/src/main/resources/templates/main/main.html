@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{template.html}"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+</head>
+<body style="background-color: whitesmoke">
+<div layout:fragment="content">
+    <script th:reportDate="${apiTests.getReportCreationDate()}">
+        document.write("<h6>Последнее обновление отчета: " +
+            dateFormat(document.currentScript.getAttribute('reportDate')) + "</h6>");
+    </script>
+    <div class=" panel-block">
+        <div>
+            <h4>API тесты</h4>
+            <br>
+            <script>
+
+            </script>
+            <div th:replace="fragments/main/api_automated :: api_automated"></div>
+            <br><br>
+            <div th:replace="fragments/main/api_test_run :: api_test_run"></div>
+        </div>
+    </div>
+
+    <div class=" panel-block">
+        <div>
+            <h4>UI тесты</h4>
+            <br>
+            <div th:replace="fragments/main/ui_automated :: ui_automated"></div>
+            <br><br>
+            <div th:replace="fragments/main/ui_test_run :: ui_test_run"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

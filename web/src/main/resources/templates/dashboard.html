@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{template.html}"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Main page</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-lg-12" style="height: 20px">
+            <!--            <h3>Общая картина системного тестирования ESA</h3>-->
+        </div>
+    </div>
+    <!--    environment-->
+    <div th:replace="fragments/stand/env_stands :: stand_env_list"></div>
+    <hr class="mt-4 mb-4"/>
+
+    <!--    environment end-->
+    <!--    Стенды start-->
+    <div th:replace="fragments/stand/esa_stands :: stand_esa_list"></div>
+    <!--    Стенды end-->
+    <hr class="mt-4 mb-4"/>
+    <!--    ./row tests-->
+    <div class="row">
+        <script>
+            $(document).ready(function() {
+                standManagement.checkStandsState();
+                setInterval(function() {standManagement.checkStandsState()}, 5000);
+            })
+        </script>
+    </div>
+    <!--   end  <div class="row"> tests-->
+
+
+</div>
+</body>
+</html>

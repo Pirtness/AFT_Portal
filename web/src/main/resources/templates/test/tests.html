@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{template.html}"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tests</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-lg-10">
+            <br>
+            <div th:replace="fragments/tests/search_test :: search_test"></div>
+            <br><br>
+            <div th:replace="fragments/tests/test_list :: test_list"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TestRun</title>
+</head>
+<body>
+<div class="panel panel-default" th:fragment="test_run">
+    <script>
+        function progressBar(passedAmount, failedAmount) {
+            let wholeAmount = Number(failedAmount) + Number(passedAmount);
+            let passedPercentage = (passedAmount / wholeAmount * 100).toFixed(2);
+            let failedPercentage = (failedAmount / wholeAmount * 100).toFixed(2);
+            let passedText = passedAmount + " (" + passedPercentage + "%)"
+            let failedText = failedAmount + " (" + failedPercentage + "%)"
+
+            let html = "<h6>Результат запуска ночных прогонов: </h6>" +
+                "        <div style='display: inline-block; width: 80%'><div class='progress' style='height: 30px'>" +
+                "            <div class='progress-bar bg-success' role='progressbar' style='width: " + passedPercentage + "%' " +
+                "            title='" + passedText + "' aria-valuemin='0' aria-valuemax='100'>" + passedText + "</div>" +
+                "            <div class='progress-bar bg-danger' role='progressbar' style='width: " + failedPercentage + "%' " +
+                "            title='" + failedText + "' aria-valuemin='0' aria-valuemax='100'>" + failedText + "</div>" +
+                "        </div></div> " +
+                "        <span>Всего: " + wholeAmount + "</span>" +
+                "        <div style='vertical-align: middle'>" +
+                "        <div style='display: inline-block'><div style='display: inline-block; margin-right: 3px; margin-left: 7px; margin-top: 2px' class='box-progress-bar bg-success'></div><span style='display: inline-block'>  Успешно</span></div>" +
+                "        <div style='display: inline-block'><div style='display: inline-block; margin-right: 3px; margin-left: 7px; margin-top: 2px' class='box-progress-bar bg-danger'></div><span style='display: inline-block'>  Упало</span></div>" +
+                "        </div>"
+            document.write(html);
+        }
+    </script>
+
+    <script th:passedTestsAmount="${allTests.getPassedTestsAmount()}"
+            th:failedTestsAmount="${allTests.getFailedTestsAmount()}">
+        progressBar(document.currentScript.getAttribute('passedTestsAmount'),
+            document.currentScript.getAttribute('failedTestsAmount'));
+    </script>
+</div>
+</body>
+</html>

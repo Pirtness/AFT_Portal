@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div>
+    <!--    folders start-->
+    <div class="panel panel-default" th:fragment="folders_hints">
+
+    <table>
+        <tr>
+            <td colspan="2"><div><b>Папки</b></div></td>
+            <td colspan="2"><div><b>Тесты</b></div></td>
+        </tr>
+
+        <tr>
+            <td><div class="box box-success"></div></td>
+            <td><div> - В папке нет упавших тестов</div></td>
+            <td><div class="box box-success"></div></td>
+            <td><div> - Тест успешно прошел</div></td>
+        </tr>
+
+        <tr>
+            <td><div class="box box-warning"></div></td>
+            <td><div> - В папке есть тесты, которые не падали в прошлый раз</div></td>
+            <td><div class="box box-warning"></div></td>
+            <td><div> - В прошлый раз тест не падал</div></td>
+        </tr>
+
+        <tr>
+            <td><div class="box box-danger"></div></td>
+            <td><div> - Упало менее 5% тестов в папке</div></td>
+<!--            <td><div class="box box-danger"></div></td>-->
+<!--            <td><div> - Тест упал на заглушке/таймауте</div></td>-->
+            <td><div class="box box-danger-dark"></div></td>
+            <td><div> - Тест упал</div></td>
+        </tr>
+
+        <tr>
+            <td><div class="box box-danger-dark"></div></td>
+            <td><div> - Упало более 5% тестов в папке</div></td>
+            <td><div class="box box-white-grey"></div></td>
+            <td><div> - Тест не автоматизирован</div></td>
+        </tr>
+
+        <tr>
+            <td><div class="box box-white-grey"></div></td>
+            <td><div> - В папке нет автоматизированных тестов</div></td>
+            <td><div class="box box-info"></div></td>
+            <td><div> - Тест автоматизирован, запусков не было</div></td>
+        </tr>
+
+    </table>
+    </div>
+</div>
+</body>
+</html>

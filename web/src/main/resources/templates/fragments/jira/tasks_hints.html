@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<div>
+
+    <div class="panel panel-default" th:fragment="tasks_hints">
+
+        <table>
+            <tr>
+                <td colspan="2" width="50%"><div><b>Задачи</b></div></td>
+                <td colspan="2" width="50%"><div><b>Статусы</b></div></td>
+            </tr>
+
+            <tr>
+                <td><div class="box box-grey"></div></td>
+                <td><div> - Новая задача</div></td>
+                <td><div class="circle circle-to-do"></div></td>
+                <td><div> - Задача находится в статусе To Do/Open</div></td>
+            </tr>
+
+            <tr>
+                <td><div class="box box-warning"></div></td>
+                <td><div> - Задача создана более 2 дней назад</div></td>
+                <td><div class="circle circle-in-progress"></div></td>
+                <td><div> - Задача находится в статусе In Progress</div></td>
+            </tr>
+
+            <tr>
+                <td><div class="box box-danger"></div></td>
+                <td><div> - Задача создана более недели назад</div></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <td><div class="box box-danger-dark"></div></td>
+                <td><div> - Задача создана более месяца назад</div></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+        </table>
+    </div>
+</div>
+</body>
+</html>

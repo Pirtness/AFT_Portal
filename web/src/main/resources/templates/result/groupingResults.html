@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{template.html}"
+>
+
+<head>
+    <title>Сводка проверок за день</title>
+    <link rel="stylesheet" type="text/css" href="../static/vendor/datatables/css/dataTables.bootstrap4.css"
+          th:href="@{/vendor/datatables/css/dataTables.bootstrap4.css}">
+
+    <link rel="stylesheet" type="text/css" href="../static/vendor/datatables/css/jquery.dataTables.css"
+          th:href="@{/vendor/datatables/css/jquery.dataTables.css}">
+
+    <link rel="stylesheet" type="text/css" href="../static/vendor/datatables/css/dataTables.jqueryui.css"
+          th:href="@{/vendor/datatables/css/dataTables.jqueryui.css}">
+
+
+    <link rel="stylesheet" type="text/css" href="static/vendor/chartjs/Chart.css"
+          th:href="@{/vendor/chartjs/Chart.css}">
+
+    <script type="text/javascript" charset="utf8" src="../static/vendor/datatables/js/jquery.dataTables.js"
+            th:src="@{/vendor/datatables/js/jquery.dataTables.js}"></script>
+
+    <script type="text/javascript" charset="utf8" src="../static/vendor/datatables/js/dataTables.bootstrap4.js"
+            th:src="@{/vendor/datatables/js/dataTables.bootstrap4.js}"></script>
+
+    <script type="text/javascript" charset="utf8" src="../static/vendor/datatables/js/dataTables.jqueryui.js"
+            th:src="@{/vendor/datatables/js/dataTables.jqueryui.js}"></script>
+
+    <script type="text/javascript" charset="utf8" src="../static/vendor/flot/excanvas.min.js"
+            th:src="@{/vendor/flot/excanvas.min.js}"></script>
+
+    <script type="text/javascript" charset="utf8" src="../static/vendor/flot/jquery.flot.js"
+            th:src="@{/vendor/flot/jquery.flot.js}"></script>
+
+    <script type="text/javascript" charset="utf8" src="../static/vendor/flot/jquery.flot.time.js"
+            th:src="@{/vendor/flot/jquery.flot.time.js}"></script>
+
+    <script type="text/javascript" charset="utf8" src="../static/vendor/flot-tooltip/jquery.flot.tooltip.min.js"
+            th:src="@{/vendor/flot-tooltip/jquery.flot.tooltip.min.js}"></script>
+
+    <script type="text/javascript" charset="utf8" src="../static/js/flot-data.js"
+            th:src="@{/js/flot-data.js}"></script>
+
+<!--    <script type="text/javascript" charset="utf8"  src="../static/vendor/moment/moment.min.js"-->
+<!--            th:src="@{/vendor/moment/moment.min.js}"></script>-->
+
+<!--    <script type="text/javascript" charset="utf8"  src="../static/vendor/hammer/hammer.min.js"-->
+<!--            th:src="@{/vendor/hammer/hammer.js}"></script>-->
+
+<!--    <script type="text/javascript" charset="utf8"  src="../static/vendor/chartjs/Chart.js"-->
+<!--            th:src="@{/vendor/chartjs/Chart.js}"></script>-->
+
+<!--    <script type="text/javascript" charset="utf8"  src="../static/vendor/chartjs/chartjs-plugin-zoom.js"-->
+<!--            th:src="@{/vendor/chartjs/chartjs-plugin-zoom.js}"></script>-->
+
+
+<!--    <script type="text/javascript" charset="utf8" src="../static/js/flot-data.js"-->
+<!--            th:src="@{/js/chart-data.js}"></script>-->
+
+
+
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="" style="margin-left: 0">
+        <div class="row">
+            <div class="col-sm-12">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div style="border: 1px solid;">
+                <table id="groupingResults" class="display" style="width: 100%; font-size: 0.9rem">
+                    <thead>
+                    <tr>
+                        <th rowspan="2">standId</th>
+                        <th rowspan="2">checkId</th>
+                        <th rowspan="2">Стенд</th>
+                        <th rowspan="2">Проверка</th>
+                        <th colspan="4" class="text-center">Продолжительность, мс</th>
+                        <th colspan="4" class="text-center">Количество</th>
+                    </tr>
+                    <tr>
+                        <th>Средняя</th>
+                        <th>медиана</th>
+                        <th>максимум</th>
+                        <th style="border-right: 1px solid;">минимум</th>
+                        <th>Запуски</th>
+                        <th>успешно</th>
+                        <th>проваленных</th>
+                        <th>самых долгих</th>
+                    </tr>
+                    </thead>
+                </table>
+                </div>
+                <script>
+                    $(document).ready(function () {
+                        var tableGroupingResults = $('#groupingResults').DataTable({
+                            ajax: {
+                                url: '/api/results/groupingResults',
+                                dataSrc: ''
+                            },
+                            deferRender: true,
+                            paging: false,
+                            ordering: false,
+                            scrollY: 400,
+                            scrollCollapse: true,
+                            scroller: true,
+                            select: true,
+                            columns: [
+                                {data: 'standId'},
+                                {data: 'checkId'},
+                                {data: 'standName'},
+                                {data: 'checkName'},
+                                {data: 'avgDuration'},
+                                {data: 'mediana'},
+                                {data: 'maxDuration'},
+                                {data: 'minDuration'},
+                                {data: 'countRuns'},
+                                {data: 'countSuccess'},
+                                {data: 'countFails'},
+                                {data: 'countLongDuration'}
+                            ]
+                            ,
+                            columnDefs: [{
+                                "targets": [0, 1],
+                                "visible": false,
+                                "searchable": false
+                            }]
+
+                        });
+                        $('#groupingResults tbody').on('click', 'tr', function () {
+                            if ($(this).hasClass('selected')) {
+                                $(this).removeClass('selected');
+                            } else {
+                                tableGroupingResults.$('tr.selected').removeClass('selected');
+                                $(this).addClass('selected');
+                                let rowData = tableGroupingResults.row(this).data();
+                                updateDurationStandChart(rowData)
+                            }
+                        });
+                    })
+                </script>
+            </div>
+        </div>
+        <!--        chart-->
+        <div class="row pt-5">
+            <div class="col-sm-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading" id="chartCaption">Кликни на провекру, чтоб увидеть график за сутки</div>
+                    <div class="panel-body">
+                        <div class="flot-chart">
+                            <div class="flot-chart-content" id="durationStandChart" style="height: 200px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!--        &lt;!&ndash;        chart&ndash;&gt;-->
+<!--        <div class="row">-->
+<!--            <div class="col">-->
+<!--                <canvas id="durationStandChart2"></canvas>-->
+<!--            </div>-->
+<!--        </div>-->
+
+    </div>
+</div>
+</body>
+</html>

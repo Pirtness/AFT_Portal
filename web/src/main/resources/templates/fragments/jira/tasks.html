@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>tasks</title>
+</head>
+<body>
+<div>
+
+    <div class="panel panel-default" th:fragment="tasks">
+        <script>
+            function showTasksByTeamName(team, taskData) {
+                let htmlTasks = "<div id='tasks' class='block-li'><ul>"
+                for (let task in taskData) {
+                    if (taskData[task].key.substring(0, taskData[task].key.lastIndexOf('-')) == team ) {
+                        let backgroundCircleClass = ''
+                        if (taskData[task].status == 'To Do')
+                            backgroundCircleClass = 'circle-to-do'
+                        else if (taskData[task].status == 'In Progress')
+                            backgroundCircleClass = 'circle-in-progress'
+                        else if (taskData[task].status == 'Open')
+                            backgroundCircleClass = 'circle-open'
+
+                        let backgroundClass = ''
+                        let whiteBackground = ''
+                        let creationDate = new Date(taskData[task].creationDate);
+                        let nowDate = new Date();
+                        let daysDelta = (nowDate - creationDate) / 86400000
+                        if (daysDelta > 30) {
+                            backgroundClass = 'old-task'
+                            whiteBackground = 'style="background: white"'
+                        }
+                        else if (daysDelta > 7) {
+                            backgroundClass = 'week-task'
+                        }
+                        else if (daysDelta > 2) {
+                            backgroundClass = 'couple-day-task'
+                        }
+                        else {
+                            backgroundClass = 'new-task'
+                        }
+
+                        htmlTasks += "<a href='" + taskData[task].link + "' target='_blank'>" +
+                            "<li class='" + backgroundClass + "'>" +
+                            "<div><b>" + taskData[task].key + "</b></div>" +
+                            "<div>" + taskData[task].summary + "</div>" +
+                            "<div class='circle circle-top-right " + backgroundCircleClass + "'></div>" +
+                            "<img title='" + taskData[task].priority +
+                            "' class='task-priority bottom-left' src = 'img/" + taskData[task].priority.toLowerCase() + ".svg'"
+                            + whiteBackground + ">" +
+                            "<div class='footer-text-shadow' hidden>(Нажмите для перехода в Jira)</div>" +
+                            "</li>" +
+                            "</a>";
+                    }
+                }
+                htmlTasks += "</ul></div>";
+               return htmlTasks;
+            }
+
+            function updateTasksHover() {
+                $('.block-li ul li').hover(function () {
+                    $(this).find("div.footer-text-shadow").removeAttr('hidden');
+                }, function() {
+                    $(this).find("div.footer-text-shadow").attr('hidden', true);
+                });
+            }
+        </script>
+
+        <div class="row">
+            <div class="col-lg-10">
+                <div th:replace="fragments/jira/tasks_hints :: tasks_hints"></div>
+                <br>
+            </div>
+        </div>
+
+        <div class="panel-body">
+            <script type="text/javascript">
+                let teams = ["ESAAFT", "ESA", "ESATECHNO", "ESAMFA", "SID", "ESASECUR", "TECHNO2", "TECHNO3", "ESALLIENCE"]
+                let htmlTeamsChoose = "<dl><dt class='inline-dt'>Выбор команды:</dt>";
+                for (let team in teams) {
+                    htmlTeamsChoose += "<dd team='" + teams[team] + "' role='button' class='inline-dd'>" + teams[team] + "</dd>";
+                }
+                htmlTeamsChoose += "</dl>"
+                document.write(htmlTeamsChoose);
+            </script>
+
+            <panel id='tasks_panel'></panel>
+            <script>
+                let taskData = getJsonData("/api/goToJira?" +
+                    "jql=project in ('ESAAFT', 'ESA', 'ESATECHNO', 'ESAMFA', 'SID', 'ESASECUR', 'TECHNO2', 'TECHNO3', 'ESALLIENCE') " +
+                    "AND status in ('To Do', 'Open', 'In Progress') " +
+                    "AND labels='ESA.ST'" +
+                    "ORDER BY created");
+            </script>
+
+
+            <script>
+                $('dd[role="button"]').click(function(e){
+                    jQuery("#tasks").remove();
+                    jQuery('dd[role="button"]').removeAttr('clicked');
+                    $(this).attr('clicked', 'true');
+                    let team = $(this).attr('team');
+                    document.getElementById("tasks_panel").innerHTML += showTasksByTeamName(team, taskData);
+                    updateTasksHover();
+                });
+                document.querySelector('dd[role="button"]').click();
+            </script>
+
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

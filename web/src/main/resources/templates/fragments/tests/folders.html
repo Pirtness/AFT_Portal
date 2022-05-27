@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>stands</title>
+</head>
+<body>
+
+<div>
+    <!--    folders start-->
+    <div class="panel panel-default" th:fragment="folders">
+        <script>
+            function cntPassWithPercent(cntPass, cntImpl) {
+                document.write("<td>" + cntPass + " (" + (cntPass / cntImpl * 100).toFixed(2) + "%)</td>");
+            }
+        </script>
+        <!--        <div class="panel-heading">-->
+        <!--            Test plan folders-->
+        <!--        </div>-->
+        <div class="panel-body table-responsive fixTableHead">
+            <table style="width: 100%" id="WebReportFolder"
+                   class="tree table table-bordered table-striped table-hover table-sm">
+                <thead class="text-center">
+                <tr>
+                    <th rowspan="1" style="width: 30%"></th>
+                    <th rowspan="1" style="width: 10%">Всего тестов в алм</th>
+                    <th rowspan="1" style="width: 10%">С привязанными дефектами</th>
+                    <th rowspan="1" style="width: 10%">Автоматизировано</th>
+                    <th rowspan="1" style="width: 10%">Пройдено</th>
+                    <th rowspan="1" style="width: 10%">Провалено</th>
+                    <th rowspan="1" style="width: 10%">Внимание </br> <small> (в прошлый раз не падало) </small></th>
+                    <th rowspan="1" style="width: 10%">В разработке/актуализации</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr class="treegrid-2" data-count="2">
+                    <td>ALM - test plan</td>
+                    <td th:text="${rootFolder.getCntAll()}">0</td>
+                    <td th:text="${rootFolder.getCntDefect()}">0</td>
+                    <td th:text="${rootFolder.getCntImpl()}">0</td>
+                    <script th:cntPass="${rootFolder.getCntPass()}" th:cntImpl="${rootFolder.getCntImpl()}">
+                        let cntPass = document.currentScript.getAttribute('cntPass')
+                        let cntImpl = document.currentScript.getAttribute('cntImpl')
+                        cntPassWithPercent(cntPass, cntImpl);
+                    </script>
+                    <td th:text="${rootFolder.getCntFail()}">0</td>
+                    <td th:text="${rootFolder.getCntWarn()}">0</td>
+                    <td th:text="${rootFolder.getCntPr()}">0</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <script th:inline="javascript">
+
+            function reportFolderDataLoad(parentId, response) {
+                //console.log("source data for parent " + parentId);
+                let url = '/api/test/folderReport/getChildren?parentFolderId=' + parentId
+                let data = getJsonData(url)
+                let result = [];
+                for (row in data) {
+                    let fontClass = 'text-dark';
+                    if (data[row].typeOp === 'D') {
+                        fontClass = 'text-muted';
+                    }
+                    let backgroundClass = ''
+                    if (data[row].cntImpl > 0 && data[row].cntFail / data[row].cntImpl < 0.05) {
+                        backgroundClass = 'table-danger'
+                    }
+                    if (data[row].cntImpl > 0 && data[row].cntFail / data[row].cntImpl >= 0.05) {
+                        backgroundClass = 'table-danger-dark'
+                    }
+                    if (data[row].cntImpl > 0 && data[row].cntFail == 0) {
+                        backgroundClass = 'table-success'
+                    }
+                    if (data[row].cntWarn > 0) {
+                        backgroundClass = 'table-warning'
+                    }
+                    result.push(
+                        "<tr class='treegrid-" + data[row].id + " treegrid-parent-" + data[row].parentId
+                        + " " + fontClass + " " + backgroundClass + "' data-count=\"2\">\n" +
+                        "  <td>" + data[row].name + "</td> \n" +
+                        "  <td>" + data[row].cntAll + "</td> \n" +
+                        "  <td>" + data[row].cntDefect + "</td> \n" +
+                        "  <td>" + data[row].cntImpl + "</td>\n" +
+                        "  <td>" + data[row].cntPass + "</td>\n" +
+                        "  <td>" + data[row].cntFail + "</td>\n" +
+                        "  <td>" + data[row].cntWarn + "</td>\n" +
+                        "  <td>" + data[row].cntPr + "</td>\n" +
+                        "</tr>")
+                }
+
+                url = '/api/test/testLastRunReport/getChildren?parentFolderId=' + parentId
+                let dataImpl = getJsonData(url)
+
+                url = 'api/test/almTest/getChildren?parentFolderId=' + parentId;
+                let dataNotImpl = getJsonData(url);
+
+                url = 'api/test/almTest/ImplNorReported/getChildren?parentFolderId=' + parentId;
+                let dataImplNotReported = getJsonData(url);
+                let testsTable = "";
+
+                if (dataImpl.length > 0 || dataNotImpl.length > 0 || dataImplNotReported.length > 0) {
+                    testsTable += "<tr>\n" +
+                        "<td colspan='8'>" +
+                        "<table border='1' style='width: 100%;'>" +
+                        "<th>id теста</th>" +
+                        "<th>Название теста</th>" +
+                        "<th></th>"
+                }
+
+                for (row in dataImpl) {
+                    let fontClass = 'text-dark';
+                    let backgroundClass = 'table-hover'
+                    if (dataImpl[row].prevStatus === 'p' && dataImpl[row].lastStatus === 'f') {
+                        backgroundClass = 'table-warning';
+                    }
+                    else if (dataImpl[row].lastStatus === 'f') {
+                        url = '/api/test/testLastRunReport/' + dataImpl[row].id + '/getError?isIdent=' + dataImpl[row].isIdentApp;
+                        let errorData = getJsonData(url);
+                        if (errorData["second"] === 'MOCK' || errorData["second"] === 'TIMEOUT')
+                            backgroundClass = 'table-danger';
+                        else
+                            backgroundClass = 'table-danger-dark';
+                    }
+                    else if (dataImpl[row].lastStatus === 'p') {
+                        backgroundClass = 'table-success';
+                    }
+
+                    let id = dataImpl[row].id
+                    if (dataImpl[row].isIdentApp === 1)
+                        id = '999' + dataImpl[row].id;
+                    testsTable += "<tr>" +
+                    "<td class='" + fontClass + " " + backgroundClass + "' style='width: 10%'>" + id + "</td>" +
+                    "<td class='" + fontClass + " " + backgroundClass + "' style='width: 70%'>" + dataImpl[row].name + "</td>" +
+                    "<td class='" + fontClass + " " + backgroundClass + "' style='width: 15%'>" +
+                        "<form style='text-align: center' action='/test_info.html/" + dataImpl[row].id + "'>" +
+                        "<button type='submit' >Перейти к деталям</button>" +
+                        "</form></td>" +
+                    "</tr>"
+                }
+
+                for (row in dataNotImpl) {
+                    testsTable += "<tr>" +
+                        "<td style='width: 10%'>" + dataNotImpl[row].id + "</td>" +
+                        "<td style='width: 70%'>" + dataNotImpl[row].name + "</td>" +
+                        "<td style='width: 15%, text-align: center'>" +
+                        "<form style='text-align: center' action='/test_info.html/" + dataNotImpl[row].id + "'>" +
+                        "<button type='submit'>Перейти к деталям</button>" +
+                        "</form></td>" +
+                        "</tr>"
+                }
+
+                for (row in dataImplNotReported) {
+                    testsTable += "<tr>" +
+                        "<td class='table-info' style='width: 10%'>" + dataImplNotReported[row].id + "</td>" +
+                        "<td class='table-info' style='width: 70%'>" + dataImplNotReported[row].name + "</td>" +
+                        "<td class='table-info' style='width: 15%, text-align: center'>" +
+                        "<form style='text-align: center' action='/test_info.html/" + dataImplNotReported[row].id + "'>" +
+                        "<button type='submit'>Перейти к деталям</button>" +
+                        "</form></td>" +
+                        "</tr>"
+                }
+
+                if (dataImpl.length > 0 || dataNotImpl.length > 0 || dataImplNotReported.length > 0) {
+                    testsTable +=  "</table>" +
+                        "</td>\n" +
+                        "<td hidden></td> \n" +
+                        "<td hidden></td> \n" +
+                        "<td hidden></td> \n" +
+                        "<td hidden></td> \n" +
+                        "<td hidden></td> \n" +
+                        "<td hidden></td> \n" +
+                        "<td hidden></td> \n" +
+                        "</tr>"
+                    result.push(testsTable);
+                }
+                response(result);
+            }
+
+            function initTreeGrid(table) {
+                table.treegrid({
+                    source: reportFolderDataLoad
+                });
+            }
+
+            $(document).ready(
+                function () {
+                    let $table = $('#WebReportFolder');
+                    initTreeGrid($table)
+                    //$table.treegrid('expand')
+                    $('.treegrid-2').treegrid('expand')
+                }
+            )
+        </script>
+    </div>
+    <!--    Тесты end-->
+</div>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>QualityGate</title>
+</head>
+<body>
+    <div class="panel panel-default" th:fragment="quality_gate">
+        <script>
+            function progressBar(failedAmount, wholeAmount, startDate, buildName, description) {
+                let passedAmount = wholeAmount - failedAmount;
+                let passedPercentage = (passedAmount / wholeAmount * 100).toFixed(2);
+                let failedPercentage = 100 - passedPercentage;
+                let passedText = passedAmount + " (" + passedPercentage + "%)"
+                let failedText = failedAmount + " (" + failedPercentage + "%)"
+
+                let html = "<h6><a href='" + description + "' style='color: black' target='_blank'>Результат запуска Quality Gate на сборке " +
+                    buildName + ". Дата запуска " + dateFormat(startDate) +
+                    ": <br><span style='font-size: 7px'>(нажмите для перехода к отчету)</span></a></h6>" +
+                    "        <div style='display: inline-block; width: 80%'><div class='progress' style='height: 30px'>" +
+                    "            <div class='progress-bar bg-success' role='progressbar' style='width: " + passedPercentage + "%' " +
+                    "            title='" + passedText + "' aria-valuemin='0' aria-valuemax='100'>" + passedText + "</div>" +
+                    "            <div class='progress-bar bg-danger' role='progressbar' style='width: " + failedPercentage + "%' " +
+                    "            title='" + failedText + "' aria-valuemin='0' aria-valuemax='100'>" + failedText + "</div>" +
+                    "        </div></div> " +
+                    "        <span>Всего: " + wholeAmount + "</span>" +
+                    "        <div style='vertical-align: middle'>" +
+                    "        <div style='display: inline-block'><div style='display: inline-block; margin-right: 3px; margin-left: 7px; margin-top: 2px' class='box-progress-bar bg-success'></div><span style='display: inline-block'>  Успешно</span></div>" +
+                    "        <div style='display: inline-block'><div style='display: inline-block; margin-right: 3px; margin-left: 7px; margin-top: 2px' class='box-progress-bar bg-danger'></div><span style='display: inline-block'>  Упало</span></div>" +
+                    "        </div>"
+                document.write(html);
+            }
+        </script>
+
+        <script th:failedAmount="${qualityGateTests.getFailedTestsAmount()}"
+                th:wholeAmount="${qualityGateTests.getAutomatedTestsAmount()}"
+                th:startDate="${qualityGateTests.getTestRunStartDate()}"
+                th:buildName="${qualityGateTests.getBuildName()}"
+                th:description="${qualityGateTests.getDescription()}">
+            progressBar(document.currentScript.getAttribute('failedAmount'),
+                document.currentScript.getAttribute('wholeAmount'),
+                document.currentScript.getAttribute('startDate'),
+                document.currentScript.getAttribute('buildName'),
+                document.currentScript.getAttribute('description'));
+        </script>
+    </div>
+</body>
+</html>

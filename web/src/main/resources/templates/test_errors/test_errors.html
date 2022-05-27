@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{template.html}"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Test errors</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-lg-10">
+            <br>
+            <script type="text/javascript" th:buildName="${buildName}">
+                document.write("<div> Текущая сборка: " + document.currentScript.getAttribute("buildName") + "</div>");
+            </script>
+            <br>
+            <div th:replace="fragments/test_errors/test_errors_list :: test_errors_list"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

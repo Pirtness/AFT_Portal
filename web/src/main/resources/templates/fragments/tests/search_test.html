@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>search_test</title>
+</head>
+<body>
+<div>
+
+    <div class="panel panel-default" th:fragment="search_test">
+
+        <div class="panel-body">
+            <input type="text" id="testId" placeholder="Id теста">
+            <button type="submit" style="border-color: gray;">
+                <i class="fa fa-search" style="color: gray"></i>
+            </button>
+
+        </div>
+
+        <script>
+            $('button[type="submit"]').click(function(e){
+                let testId = document.getElementById('testId').value;
+                if (testId.startsWith('999')) {
+                    testId = testId.substring(3);
+                }
+                window.location.href = '/test_info/' + testId;
+            })
+
+            $(document).ready(function(){
+                $('#testId').keypress(function(e){
+                    if(e.keyCode==13)
+                        $('button[type="submit"]').click();
+                });
+            });
+        </script>
+
+
+    </div>
+</div>
+</body>
+</html>
