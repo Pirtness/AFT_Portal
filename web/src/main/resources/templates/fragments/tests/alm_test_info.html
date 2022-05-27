@@ -34,14 +34,17 @@
                     <script th:defectIds="${webTest.getDefects()}">
                         let html = '<td>';
                         defectIds = document.currentScript.getAttribute("defectIds");
-                        defectIds = defectIds.split(',');
-                        console.log(defectIds);
-                        for (let row in defectIds) {
-                            if (row == defectIds.length - 1)
-                                html += '<a href="../defect/' + defectIds[row] + '">' + defectIds[row] + '</a>';
-                            else
-                                html += '<a href="../defect/' + defectIds[row] + '">' + defectIds[row] + ', </a>';
-                        }
+                        if (defectIds) {
+                            defectIds = defectIds.split(',');
+                            for (let row in defectIds) {
+                                if (row == defectIds.length - 1)
+                                    html += '<a href="../defect/' + defectIds[row] + '">' + defectIds[row] + '</a>';
+                                else
+                                    html += '<a href="../defect/' + defectIds[row] + '">' + defectIds[row] + ', </a>';
+                            }
+                        } else
+                            html += 'Отсутствуют';
+
                         html += '</td>';
 
                         document.write(html);

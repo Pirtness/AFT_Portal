@@ -91,7 +91,7 @@
                     let idTemplate = $(this).attr('id-template');
                     modal.style.display = "none";
                     modal.style.display = "block";
-                    let html = '<div><b>Id кейсов ALM</b> (желтым помечаются тесты, которые не падали в прошлый раз):</div><br>'
+                    let html = '<div><b>Id тестов</b> (желтым помечаются тесты, которые не падали в прошлый раз):</div><br>'
                     for (let id in templateToTests[idTemplate]) {
                         let backgroundClass = ''
                         if (newFailedTests.includes(templateToTests[idTemplate][id]))

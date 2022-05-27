@@ -15,9 +15,8 @@
             let passedText = passedAmount + " (" + passedPercentage + "%)";
             let failedText = failedAmount + " (" + failedPercentage + "%)";
 
-            let html = "<h6> <a href='" + description + "' style='color: black' target='_blank'>Результат запуска UI тестов на сборке " +
-                buildName + ". Дата запуска " + dateFormat(startDate) +
-                ": <br><span style='font-size: 7px'>(нажмите для перехода к отчету)</span></a></h6>" +
+            let html = "<h6>Результат запуска API тестов на сборке " +
+                buildName + ". Дата запуска " + dateFormat(startDate) + "</h6>" +
                 "        <div style='display: inline-block; width: 80%'><div class='progress' style='height: 30px'>" +
                 "            <div class='progress-bar bg-success' role='progressbar' style='width: " + passedPercentage + "%' " +
                 "            title='" + passedText + "' aria-valuemin='0' aria-valuemax='100'>" + passedText + "</div>" +
